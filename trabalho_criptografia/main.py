@@ -1,4 +1,4 @@
-# Importar a tabela ascii
+# Importar o menu principal
 from funcoes import menu
 
 
