@@ -1,5 +1,5 @@
 # Importar o menu principal
-from funcoes import menu
+from menus import menu
 
 
 # Chamar o menu principal
