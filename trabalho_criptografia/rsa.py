@@ -1,11 +1,11 @@
 # Imports
-import funcoes
+import menus
 import random
 
 
 # Processando os valores recebidos do usuário
 def processar_PQZD(numeroP, numeroQ):
-    funcoes.clear_screen()
+    menus.clear_screen()
     print("Numero P: ", numeroP)
     print("Numero Q: ", numeroQ)
 
@@ -26,11 +26,11 @@ def processar_PQZD(numeroP, numeroQ):
     mdc = calcular_mdc(Z, D)    
     print("O MDC de", Z, "e", D, "é", mdc)
 
-    criar_chaves(N, D, Z)
+    criar_chaves(D, Z)
 
 
 # Processo de criação das chaves públicas e privadas
-def criar_chaves(N, D, Z):
+def criar_chaves(D, Z):
     """ 
         É necessário encontrar um número E que satisfaça a 
         seguinte propriedade:
@@ -39,8 +39,7 @@ def criar_chaves(N, D, Z):
         (E * base) mod modulo = 1
     """
 
-    # Encontrar o valor de E
-    E = encontrar_valor_de_E(base, modulo)
+    
 
     def encontrar_valor_de_E(base, modulo):
         for E in range(1, modulo):
@@ -51,10 +50,16 @@ def criar_chaves(N, D, Z):
     base = D
     modulo = Z
 
+    # Encontrar o valor de E
+    E = encontrar_valor_de_E(base, modulo)
+    
+
     if E is not None:
         print(f"O valor de E que satisfaz a equação ({base} * E) mod {modulo} = 1 é {E}.")
     else:
         print(f"Não foi encontrado um valor de E que satisfaça a equação.")
+
+    
 
 """ 
 Chave pública é para encriptar      --> (E, N)  
