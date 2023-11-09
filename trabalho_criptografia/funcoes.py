@@ -18,6 +18,41 @@ def print_menu(items, selected_item):
         else:
             print(f"    {item}")
 
+# Imprimir o menu final
+def print_menu_final():
+    items = ["Voltar ao menu principal", "Sair"]
+    selected_item = 0
+
+    while True:    
+        print_menu(items, selected_item)
+        
+        # capturar teclas do windows
+        key = msvcrt.getch()
+
+        if key == b'\xe0':  # Tecla especial (setas direcionais)
+            key = msvcrt.getch()
+
+            if key == b'H':  # Seta para cima
+                selected_item = (selected_item - 1) % len(items)
+            elif key == b'P':  # Seta para baixo
+                selected_item = (selected_item + 1) % len(items)
+        elif key == b'\r':  # Tecla Enter
+            if selected_item == 0:
+                clear_screen()
+                print()
+                menu()
+                print()
+                break
+            else:
+                clear_screen()
+                print()
+                print(f"{Fore.YELLOW}Programa encerrado.{Style.RESET_ALL}")
+                print()
+                break
+
+
+
+
 
 # menu
 def menu():
@@ -42,7 +77,7 @@ def menu():
             if selected_item == 0:
                 clear_screen()
                 print()
-                print(f"Item selecionado: {Fore.BLUE}{items[selected_item]}{Style.RESET_ALL}")
+                print(f"{Fore.BLUE}-------- Criptografar frase --------\n{Style.RESET_ALL}")
                 criptografar_frase()
                 print()
                 break
@@ -50,6 +85,5 @@ def menu():
                 clear_screen()
                 print()
                 print(f"{Fore.YELLOW}Programa encerrado.{Style.RESET_ALL}")
-                
                 print()
                 break
