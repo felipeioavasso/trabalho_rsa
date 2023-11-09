@@ -1,5 +1,5 @@
 import rsa
-import funcoes
+import menus
 
 # Verificar se os números escolhidos são primos 
 def is_prime(n):
@@ -52,7 +52,4 @@ def criptografar_frase():
     rsa.processar_PQZD(numeroP, numeroQ)
     input()
 
-    funcoes.print_menu_final()
-
-    
-    
+    menus.print_menu_final()
