@@ -1,80 +1,91 @@
-P = 83
-Q = 97
-
-N = P * Q
-
-Z = (P - 1) * (Q - 1)
-
-print('Valor de N: ', N)
-print('Valor de Z: ', Z)
-
-D = 89
-
-def calcular_mdc(numero1, numero2):
-    while numero2:
-        numero1, numero2 = numero2, numero1 % numero2
-    return numero1
-
-numero1 = Z
-numero2 = D
-
-mdc = calcular_mdc(numero1, numero2)
-
-print("O MDC de", numero1, "e", numero2, "é", mdc)
+# Imports
+import funcoes
+import random
 
 
-""" (E * D) mod Z = 1 """
+# Processando os valores recebidos do usuário
+def processar_PQZD(numeroP, numeroQ):
+    funcoes.clear_screen()
+    print("Numero P: ", numeroP)
+    print("Numero Q: ", numeroQ)
 
-def encontrar_inverso_multiplicativo(base, modulo):
-    for E in range(1, modulo):
-        if (E * base) % modulo == 1:
-            return E
-    return None  # Se não encontrar um inverso multiplicativo
+    P = numeroP
+    Q = numeroQ
 
-base = D
-modulo = Z
+    N = P * Q
 
-E = encontrar_inverso_multiplicativo(base, modulo)
+    Z = (P - 1) * (Q - 1)
 
-if E is not None:
-    print(f"O valor de E que satisfaz a equação ({base} * E) mod {modulo} = 1 é {E}.")
-else:
-    print(f"Não foi encontrado um valor de E que satisfaça a equação.")
+    print(f'Valor de N: {N}')
+    print(f'Valor de Z: {Z}\n')
+
+    # Gerar número aleatório para D
+    D = gerar_numero_D_primo(Z)
+
+    # D sendo primo de Z
+    mdc = calcular_mdc(Z, D)    
+    print("O MDC de", Z, "e", D, "é", mdc)
+
+    criar_chaves(N, D, Z)
+
+
+# Processo de criação das chaves públicas e privadas
+def criar_chaves(N, D, Z):
+    """ 
+        É necessário encontrar um número E que satisfaça a 
+        seguinte propriedade:
+
+        (E * D) mod Z = 1 
+        (E * base) mod modulo = 1
+    """
+
+    # Encontrar o valor de E
+    E = encontrar_valor_de_E(base, modulo)
+
+    def encontrar_valor_de_E(base, modulo):
+        for E in range(1, modulo):
+            if (E * base) % modulo == 1:
+                return E
+        return None  # Se não encontrar um inverso multiplicativo
+
+    base = D
+    modulo = Z
+
+    if E is not None:
+        print(f"O valor de E que satisfaz a equação ({base} * E) mod {modulo} = 1 é {E}.")
+    else:
+        print(f"Não foi encontrado um valor de E que satisfaça a equação.")
 
 """ 
-Chave pública é (N, E)
-Chave privada é (N, ) 
+Chave pública é para encriptar      --> (E, N)  
+Chave privada é para desencriptar   --> (D, N) 
+
+
+As equeções são:
+    TEXTO CRIPTOGRAFADO = (Texto original ^ E) mod N
+    Texto original = (TEXTO CRIPTOGRAFADO ^ D) mod N
+
 
 """
-print(f"A chave pública é ({N},{E})")
-print(f"A chave privada é ({N},{D})")
-
-# Limpar a tela do terminal
-def clear_screen():
-    print("\033c", end="")
 
 
 
 
-texto = ["FATEC"]
+
+
+
+
+
+
+# Gerar um número aleatório para D que seja primo em relação a Z
+def gerar_numero_D_primo(Z):
+    while True:
+        D = random.randint(2, Z - 1)
+        if calcular_mdc(Z, D) == 1:
+            return D
     
-"""
-70^23 mod 187 = 9 --> texto criptografado = (Texto original ^ E) mod N (Chave pública)
-9^7 mod 187 = 70 --> texto original = (Texto criptografado ^ D) mod N (chave privada)"""
-
-""" Cifrar a palavra FATEC """
-
-""" F = 70
-A = 65
-T = 84
-E = 69
-C = 67 """
-
-""" # Chave pública
-N = 8051
-E = 1769
-
-# Lista de letras
-#minha_lista = ["FATEC"]
-minha_lista = [70,65,84,69,67]
- """
+# D precisa ser primo em relação à Z
+def calcular_mdc(Z, D):
+    while D:
+        Z, D = D, Z % D
+    return Z
