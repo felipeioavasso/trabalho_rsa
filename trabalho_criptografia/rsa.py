@@ -4,9 +4,8 @@ import random
 from tabela import ascii_table
 
 
+# Objeto ChaveRSA
 class ChaveRSA:
-    _contador_chaves = 0
-
     def __init__(self, P, Q, N, Z, D=None, E=None):
         self.P = P
         self.Q = Q
@@ -14,35 +13,6 @@ class ChaveRSA:
         self.Z = Z
         self.D = D
         self.E = E
-        self.ID = ChaveRSA._contador_chaves
-        ChaveRSA._contador_chaves += 1
-
-    def salvar_chaves(self):
-        arquivo_nome = f"./chaves_{self.ID}.txt"
-        with open(arquivo_nome, "w") as arquivo:
-            arquivo.write(f"E: {self.E}  N: {self.N}  D: {self.D}")
-
-
-    def criar_texto_criptografado(self, texto):
-            texto_criptografado = []
-            for char in texto:
-                valor_criptografado = (ord(char) ** self.E) % self.N
-                texto_criptografado.append(valor_criptografado)
-            return TextoCriptografado(texto_criptografado, self.ID)
-
-
-class TextoCriptografado:
-    def __init__(self, texto_criptografado, chave_id):
-        self.texto_criptografado = texto_criptografado
-        self.chave_id = chave_id
-
-    def salvar_texto_criptografado(self):
-        arquivo_nome = f"./criptografados_{self.chave_id}.txt"
-        with open(arquivo_nome, "w") as arquivo:
-            for valor in self.texto_criptografado:
-                arquivo.write(str(valor) + "")        
-
-
         
 
 # Processando os valores recebidos do usuário
@@ -75,9 +45,6 @@ def processar_PQZD(numeroP, numeroQ):
     criar_chaves(chave)    
 
     return chave
-
-    """ criar_chaves(N, D, Z)
-    return N,D """
 
 
 # Processo de criação das chaves públicas e privadas
@@ -138,7 +105,7 @@ def encriptar(frase_decimal, chave):
 
     return texto_criptografado
 
-# Salvar o texto criptografado associado â chave
+# Salvar o texto criptografado
 def salvar_texto_criptografado(texto_criptografado):
     with open("./criptografados.txt", "w") as arquivo:
         for valor in texto_criptografado:
@@ -148,7 +115,7 @@ def salvar_texto_criptografado(texto_criptografado):
 def salvar_chaves(chave):
     with open("./chaves.txt", "w") as arquivo:
         arquivo.write(f"E: {chave.E}  N: {chave.N}  D: {chave.D}") # está sobreescrevendo os registros anteriores, arrumar isso
-# Salvar o texto criptografado associado â chave
+
 
 """ 
 Chave pública é para encriptar      --> (E, N)  
