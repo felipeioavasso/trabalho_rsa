@@ -108,13 +108,12 @@ def encriptar(frase_decimal, chave):
 # Salvar o texto criptografado
 def salvar_texto_criptografado(texto_criptografado):
     with open("./criptografados.txt", "w") as arquivo:
-        for valor in texto_criptografado:
-            arquivo.write(str(valor) + "")
+            arquivo.write(" ".join(map(str, texto_criptografado)))
 
 # Salvar as chaves
 def salvar_chaves(chave):
     with open("./chaves.txt", "w") as arquivo:
-        arquivo.write(f"E: {chave.E}  N: {chave.N}  D: {chave.D}") # está sobreescrevendo os registros anteriores, arrumar isso
+        arquivo.write(f"E:{chave.E}  N:{chave.N}  D:{chave.D}") # está sobreescrevendo os registros anteriores, arrumar isso
 
 
 """ 
