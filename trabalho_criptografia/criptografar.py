@@ -31,25 +31,34 @@ def gerar_dois_numeros_primos_distintos():
 def criptografar_frase():
     # Solicitando frase ao usuário
     frase_usuario = input("Digite a sua frase a ser criptografada: \n")
-    print()
 
-    # Perguntar ao usuário se deseja gerar P e Q automaticamente
-    gerar_auto = input(f"Deseja gerar automaticamente os números P e Q?\n(S para Sim, N para Não): ").strip().lower()
-
-    # Ponto de decisão para o usuário
-    if gerar_auto == 's':
-        # Gerar automaticamente os números P e Q
-        numeroP, numeroQ = gerar_dois_numeros_primos_distintos()
+    while not frase_usuario:
+        print("A frase não pode estar vazia. Por favor, digite uma frase válida.")
+        frase_usuario = input("Digite a sua frase a ser criptografada: \n")
     else:
-        while True:
-            numeroP = int(input("Digite o primeiro número (P): "))
-            numeroQ = int(input("Digite o segundo número (Q): "))
-            if is_prime(numeroP) and is_prime(numeroQ):
-                break
-            else:
-                print("Certifique-se de que ambos os números são primos.")
+        print()
 
-    rsa.processar_PQZD(numeroP, numeroQ)
-    input()
+        # Perguntar ao usuário se deseja gerar P e Q automaticamente
+        gerar_auto = input(f"Deseja gerar automaticamente os números P e Q?\n(S para Sim, N para Não): ").strip().lower()
 
-    menus.print_menu_final()
+        # Ponto de decisão para o usuário
+        if gerar_auto == 's':
+            # Gerar automaticamente os números P e Q
+            numeroP, numeroQ = gerar_dois_numeros_primos_distintos()
+        else:
+            while True:
+                numeroP = int(input("Digite o primeiro número (P): "))
+                numeroQ = int(input("Digite o segundo número (Q): "))
+                if is_prime(numeroP) and is_prime(numeroQ):
+                    break
+                else:
+                    print("Certifique-se de que ambos os números são primos.")
+
+        rsa.processar_PQZD(numeroP, numeroQ)
+        print()
+        frase_decimal = rsa.converter_para_decimais(frase_usuario)
+        chave = rsa.chave_rsa
+        rsa.encriptar(frase_decimal,chave)
+        input()
+
+        menus.print_menu_final()
